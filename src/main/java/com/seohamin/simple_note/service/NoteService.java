@@ -23,6 +23,13 @@ public class NoteService {
     }
 
     public NoteResponseDto createNote(final NoteRequestDto noteRequestDto) {
+        if (noteRequestDto.title() == null || noteRequestDto.title().isBlank()
+                || noteRequestDto.author() == null || noteRequestDto.author().isBlank()
+                || noteRequestDto.category() == null || noteRequestDto.category().isBlank()
+                || noteRequestDto.content() == null || noteRequestDto.content().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title, author, category, content must not be blank");
+        }
+
         final Note note = new Note(
                 null,
                 noteRequestDto.title(),
@@ -36,8 +43,9 @@ public class NoteService {
         return NoteResponseDto.of(noteRepository.save(note));
     }
 
-    public List<NoteResponseDto> getAllNotes() {
+    public List<NoteResponseDto> getAllNotes(final String category) {
         return noteRepository.findAll().stream()
+                .filter(note -> category == null || note.getCategory().equals(category))
                 .map(NoteResponseDto::of)
                 .toList();
     }
@@ -69,6 +77,13 @@ public class NoteService {
         final Optional<Note> optionalNote = noteRepository.findById(id);
         if (optionalNote.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found: " + id);
+        }
+
+        if (noteRequestDto.title() == null || noteRequestDto.title().isBlank()
+                || noteRequestDto.author() == null || noteRequestDto.author().isBlank()
+                || noteRequestDto.category() == null || noteRequestDto.category().isBlank()
+                || noteRequestDto.content() == null || noteRequestDto.content().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "title, author, category, content must not be blank");
         }
 
         final Note note = optionalNote.get();

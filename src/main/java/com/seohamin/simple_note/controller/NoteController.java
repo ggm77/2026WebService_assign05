@@ -28,8 +28,10 @@ public class NoteController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<NoteResponseDto>> getAllNotes() {
-        return ResponseEntity.ok().body(noteService.getAllNotes());
+    public ResponseEntity<List<NoteResponseDto>> getAllNotes(
+            @RequestParam(value = "category", required = false) final String category
+    ) {
+        return ResponseEntity.ok().body(noteService.getAllNotes(category));
     }
 
     @GetMapping("/{id}")
