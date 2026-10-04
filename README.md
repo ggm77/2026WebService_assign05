@@ -223,6 +223,7 @@ id가 없으면 `sequence`를 1 올려 id를 부여하고 생성 시각을 넣�
 **AI Usage**
 
 - Claude Code를 사용해 Solution 코드 분석, Service·Memory Repository·입력 검증·카테고리 필터 코드 초안, README 정리를 도움받았습니다.
+- 직접 수정한 부분: 404 검사를 메서드마다 `if`문으로 변경, 변환 메서드를 `NoteResponseDto.of()`로 이동, 생성·수정 시각을 Repository에서 입력하도록 변경했습니다.
 - 모든 기능은 로컬과 배포 URL에서 curl로 직접 요청해 응답 코드를 확인했습니다.
 
 **Reflection**
